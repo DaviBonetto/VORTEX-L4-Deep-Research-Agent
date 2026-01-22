@@ -18,12 +18,7 @@
 
 **Part of the Titan Protocol Initiative — System 02/300**
 
-*Multi-Agent Research System with Autonomous Information Gathering and Report Generation*
-
-[Quick Start](#-quick-start) •
-[Architecture](#-architecture) •
-[Agents](#-agents) •
-[Usage](#-usage)
+*Multi-Agent Research System with Autonomous Information Gathering*
 
 </div>
 
@@ -32,96 +27,52 @@
 ## 🏗️ Architecture
 
 ```mermaid
-flowchart LR
-    subgraph Input ["Input Layer"]
+%%{init: {'theme': 'dark', 'themeVariables': { 'fontSize': '14px'}}}%%
+flowchart TD
+    subgraph UserSpace ["📱 User Space"]
         A["👤 User Query"]
+        H["📄 Final Report"]
     end
 
-    subgraph VORTEX ["VORTEX Multi-Agent System"]
-        direction TB
-        B["🎯 Supervisor Agent"]
-        C["🔍 Researcher Agent"]
-        D["📊 Analyst Agent"]
-        E["✍️ Writer Agent"]
+    subgraph AgentSpace ["🤖 Agent Space"]
+        B["🎯 Supervisor"]
+        C["🔍 Researcher"]
+        D["📊 Analyst"]
+        E["✍️ Writer"]
     end
 
-    subgraph Tools ["External Tools"]
+    subgraph ToolSpace ["🔧 Tools"]
         F["🌐 Tavily Search"]
-        G["🧠 OpenAI GPT-4"]
+        G["🧠 GPT-4"]
     end
 
-    subgraph Output ["Output Layer"]
-        H["📄 Research Report"]
-    end
+    A --> B
+    B -->|delegate| C
+    C --> F
+    F --> C
+    C -->|data| D
+    D --> G
+    G --> D
+    D -->|insights| E
+    E --> G
+    E -->|report| H
 
-    A -->|"Research Request"| B
-    B -->|"1. Delegate"| C
-    C -->|"2. Search"| F
-    F -->|"Results"| C
-    C -->|"3. Raw Data"| D
-    D -->|"4. Insights"| E
-    E -->|"5. Generate"| G
-    G -->|"Content"| E
-    E -->|"6. Final Report"| H
-
-    classDef supervisor fill:#ff6b6b,stroke:#333,stroke-width:2px,color:white;
-    classDef researcher fill:#4ecdc4,stroke:#333,stroke-width:2px,color:white;
-    classDef analyst fill:#45b7d1,stroke:#333,stroke-width:2px,color:white;
-    classDef writer fill:#96ceb4,stroke:#333,stroke-width:2px,color:white;
-    
-    class B supervisor;
-    class C researcher;
-    class D analyst;
-    class E writer;
+    style A fill:#1e3a5f,stroke:#4a90d9,color:#fff
+    style H fill:#1e5f3a,stroke:#4ad97a,color:#fff
+    style B fill:#5f1e3a,stroke:#d94a7a,color:#fff
+    style C fill:#3a5f1e,stroke:#7ad94a,color:#fff
+    style D fill:#3a1e5f,stroke:#7a4ad9,color:#fff
+    style E fill:#5f3a1e,stroke:#d97a4a,color:#fff
 ```
-
-### Agent Responsibilities
-
-| Agent | Role | Tools |
-|-------|------|-------|
-| **🎯 Supervisor** | Orchestrates workflow, delegates tasks | LangGraph routing |
-| **🔍 Researcher** | Gathers information from the web | Tavily Search API |
-| **📊 Analyst** | Processes and synthesizes data | GPT-4 analysis |
-| **✍️ Writer** | Generates final report | GPT-4 generation |
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Clone and Setup
-
 ```bash
-git clone https://github.com/DaviBonetto/VORTEX-L4-Deep-Research-Agent.git
-cd VORTEX-L4-Deep-Research-Agent
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or: venv\Scripts\activate  # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 2. Configure Environment
-
-```bash
-cp .env.example .env
-# Edit .env with your API keys
-```
-
-### 3. Test Connection
-
-```bash
+cd ~/VORTEX-L4-Deep-Research-Agent
+source venv/bin/activate
 python src/main.py
-```
-
-Expected output:
-```
-🌪️ VORTEX System Initializing...
-✅ OpenAI Key Loaded
-✅ Tavily Key Loaded
-🚀 VORTEX Ready for Deep Research Operations
 ```
 
 ---
@@ -129,52 +80,31 @@ Expected output:
 ## 📁 Project Structure
 
 ```
-VORTEX-L4-Deep-Research-Agent/
-├── src/
-│   ├── agents/          # LangGraph agent definitions
-│   ├── tools/           # External tool integrations
-│   ├── state/           # Graph state management
-│   └── main.py          # Entry point
-├── notebooks/           # Jupyter experiments
-├── tests/               # Pytest test suite
-├── requirements.txt     # Python dependencies
-├── .env.example         # Environment template
-└── README.md            # This file
+src/
+├── agents/
+│   └── researcher.py    # Research node implementation
+├── tools/
+│   └── search.py        # Tavily search integration
+├── state/
+│   └── graph.py         # AgentState definition
+└── main.py              # LangGraph orchestration
 ```
-
----
-
-## 🔧 Configuration
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `OPENAI_API_KEY` | OpenAI API key for GPT-4 | ✅ Yes |
-| `TAVILY_API_KEY` | Tavily API key for web search | ✅ Yes |
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **Orchestration** | LangGraph | Multi-agent workflow management |
-| **LLM Framework** | LangChain | LLM abstraction and chaining |
-| **Language Model** | OpenAI GPT-4 | Reasoning and generation |
-| **Web Search** | Tavily API | Real-time information retrieval |
-| **Validation** | Pydantic | Data modeling and validation |
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+| Component | Technology |
+|-----------|-----------|
+| Orchestration | LangGraph |
+| LLM | OpenAI GPT-4 |
+| Search | Tavily API |
+| Validation | Pydantic |
 
 ---
 
 <div align="center">
 
 **Built with 🐍 Python by [Davi Bonetto](https://github.com/DaviBonetto)**
-
-*Part of the Titan Protocol Initiative — System 02/300*
 
 </div>
