@@ -1,0 +1,20 @@
+# VORTEX - Deep Research Agent Dependencies
+# ==========================================
+
+# LangGraph & LangChain Core
+langgraph
+langchain
+langchain_openai
+
+# Research Tools
+tavily-python
+
+# Data Validation
+pydantic
+
+# Environment Management
+python-dotenv
+
+# Testing & Development
+pytest
+jupyter
