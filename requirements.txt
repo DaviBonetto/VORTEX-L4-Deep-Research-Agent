@@ -18,3 +18,4 @@ python-dotenv
 # Testing & Development
 pytest
 jupyter
+langchain-community
