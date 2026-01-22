@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Add project root to path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 
@@ -7,14 +12,11 @@ from src.agents.researcher import research_node
 
 load_dotenv()
 
-def build_graph() -> StateGraph:
+def build_graph():
     workflow = StateGraph(AgentState)
-    
     workflow.add_node("researcher", research_node)
-    
     workflow.set_entry_point("researcher")
     workflow.add_edge("researcher", END)
-    
     return workflow.compile()
 
 def main():
@@ -24,7 +26,7 @@ def main():
     
     graph = build_graph()
     
-    initial_state: AgentState = {
+    initial_state = {
         "task": "Analysis of Quantum Computing trends 2026",
         "research_data": [],
         "report_content": "",
@@ -41,7 +43,8 @@ def main():
     print("══════════════════════════════════════════════════════════════════════")
     
     for i, data in enumerate(result["research_data"], 1):
-        print(f"\n[{i}] {data[:500]}...")
+        preview = data[:500] if len(data) > 500 else data
+        print(f"\n[{i}] {preview}")
     
     print("\n══════════════════════════════════════════════════════════════════════")
     print("✅ Research Complete")
