@@ -19,3 +19,7 @@ python-dotenv
 pytest
 jupyter
 langchain-community
+
+# RAG Integration
+httpx
+langchain-openai

@@ -9,76 +9,52 @@
     ╚═══╝   ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 ```
 
-### 🌪️ L4 Autonomous Research Agent
+### 🌪️ L4 RAG-Enabled Research Agent
 
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Latest-00ADD8?style=for-the-badge)](https://github.com/langchain-ai/langgraph)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?style=for-the-badge&logo=openai)](https://openai.com/)
+[![RAG](https://img.shields.io/badge/RAG-Enabled-blueviolet?style=for-the-badge)](#)
 [![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge)](#)
 
 **Part of the Titan Protocol Initiative — System 02/300**
 
-*Self-Improving Research Pipeline with Autonomous Quality Control*
+*Multi-Agent Research with Long-Term Vector Memory (NEXUS Integration)*
 
 </div>
 
 ---
 
-## 🏗️ Architecture v2 — Cyclic Review Loop
+## 🔗 System Integration
 
-```mermaid
-%%{init: {'theme': 'dark'}}%%
-flowchart TD
-    subgraph Input ["📥 Input"]
-        A["👤 Research Query"]
-    end
-
-    subgraph Pipeline ["🤖 Cognitive Pipeline"]
-        B["🔍 Researcher"]
-        C["📊 Analyst"]
-        D["✍️ Writer"]
-        E["🎯 Reviewer"]
-    end
-
-    subgraph Decision ["⚖️ Quality Gate"]
-        F{"Score >= 8?"}
-    end
-
-    subgraph Output ["📤 Output"]
-        G["📄 Final Report"]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F -->|"❌ No: Refine"| D
-    F -->|"✅ Yes: Approve"| G
-
-    style A fill:#1a365d,stroke:#4299e1,color:#fff
-    style B fill:#22543d,stroke:#48bb78,color:#fff
-    style C fill:#553c9a,stroke:#9f7aea,color:#fff
-    style D fill:#744210,stroke:#ed8936,color:#fff
-    style E fill:#742a2a,stroke:#fc8181,color:#fff
-    style F fill:#2d3748,stroke:#a0aec0,color:#fff
-    style G fill:#1a365d,stroke:#4299e1,color:#fff
 ```
-
----
-
-## 🔄 Self-Improvement Loop
-
-| Condition | Action |
-|-----------|--------|
-| `score < 8` | Reviewer sends critique → Writer revises |
-| `score >= 8` | Report approved → Output |
-| `revisions >= 3` | Force output (safety limit) |
+┌─────────────────────────────────────────────────────────────────┐
+│                    VORTEX (System 02)                           │
+│                    Research Agent                               │
+├─────────────────────────────────────────────────────────────────┤
+│  Memory Retrieval ←──┐                                          │
+│        ↓             │                                          │
+│  Web Search ────────→ Save to Memory                            │
+└────────────┬────────────────────────────────────────────────────┘
+             │ HTTP
+             ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    NEXUS (System 03)                            │
+│                    Vector Database                              │
+│                    http://localhost:8081                        │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## 🚀 Quick Start
 
+### 1. Start NEXUS (Terminal 1)
+```bash
+cd ~/NEXUS-L4-HighPerf-Vector-DB
+cargo run --release
+```
+
+### 2. Run VORTEX (Terminal 2)
 ```bash
 cd ~/VORTEX-L4-Deep-Research-Agent
 source venv/bin/activate
@@ -87,37 +63,36 @@ python src/main.py
 
 ---
 
+## 🧠 RAG Flow
+
+1. **Query** → Agent receives research task
+2. **Memory Check** → Search NEXUS for existing knowledge
+3. **Web Search** → Query Tavily for new information
+4. **Memory Save** → Store new findings in NEXUS
+5. **Analysis** → Synthesize all data
+6. **Report** → Generate final output
+
+---
+
 ## 📁 Project Structure
 
 ```
 src/
 ├── agents/
-│   ├── researcher.py   # Tavily search
+│   ├── researcher.py   # RAG-enabled research
 │   ├── analyst.py      # Data synthesis
-│   ├── writer.py       # Report generation (revision-aware)
-│   └── reviewer.py     # Quality scoring & critique
-├── state/
-│   └── graph.py        # AgentState with score/critique
-├── utils/
-│   └── llm.py          # LLM factory
-└── main.py             # Cyclic LangGraph orchestration
+│   ├── writer.py       # Report generation
+│   └── reviewer.py     # Quality control
+├── tools/
+│   ├── search.py       # Tavily web search
+│   └── memory.py       # NEXUS client (RAG)
+└── main.py             # RAG demo + pipeline
 ```
-
----
-
-## ⚙️ Configuration
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `APPROVAL_THRESHOLD` | 8 | Minimum score to approve |
-| `MAX_REVISIONS` | 3 | Maximum revision attempts |
 
 ---
 
 <div align="center">
 
 **Built with 🐍 Python by [Davi Bonetto](https://github.com/DaviBonetto)**
-
-*Part of the Titan Protocol Initiative — System 02/300*
 
 </div>
